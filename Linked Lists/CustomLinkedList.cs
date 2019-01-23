@@ -84,7 +84,25 @@ namespace Linked_Lists
 			}
 			return currentNode.Data;
 		}
+        /// <summary>
+        /// Returns the data value from the node at the index specified.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public T this[int index]
+        {
+            get
+            {
+                CustomNode<T> currentNode = headNode;
 
+                for (int i = 0; i < index; i++)
+                {
+                    currentNode = currentNode.NextNode;
+                }
+
+                return currentNode.Data;
+            }
+        }
 		/// <summary>
 		/// Insert a new Node object (with the specified data) at the specified index in the list.
 		/// If the index is greater than or equal to the count of the list, add the new node to the end of the list.
@@ -172,25 +190,7 @@ namespace Linked_Lists
                 currentNode = currentNode.PreviousNode;
             }
         }
-        /// <summary>
-        /// Returns the data value from the node at the index specified.
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public T this[int index]
-        {
-            get
-            {
-                CustomNode<T> currentNode = headNode;
 
-                for (int i = 0; i < index; i++)
-                {
-                    currentNode = currentNode.NextNode;
-                }
-
-                return currentNode.Data;
-            }
-        }
         /// <summary>
         /// This method clears the list.
         /// </summary>

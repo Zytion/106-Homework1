@@ -6,15 +6,11 @@ using System.Threading.Tasks;
 
 namespace Linked_Lists
 {
-	class Program
-	{
-		static void Main(string[] args)
-		{
-			CustomLinkedList<string> customLinkedList = new CustomLinkedList<string>();
-            customLinkedList.Add("Hello");
-            customLinkedList.Add("There");
-            customLinkedList.Add("General");
-            customLinkedList.Add("Kenobi");
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            CustomLinkedList<string> customLinkedList = new CustomLinkedList<string>();
 
             bool running = true;
             Random rnd = new Random();
@@ -69,8 +65,8 @@ namespace Linked_Lists
                         break;
                 }
                 Console.WriteLine("");
-                
+
             }
-		}
-	}
+        }
+    }
 }
