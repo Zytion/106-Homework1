@@ -70,6 +70,7 @@ namespace Linked_Lists
             tailNode = node;
 			count++;
 		}
+        
         /// <summary>
         /// Returns the data value from the node at the index specified.
         /// </summary>
@@ -77,29 +78,28 @@ namespace Linked_Lists
         /// <returns></returns>
         public T GetData(int index)
 		{
-			CustomNode<T> currentNode = headNode;
-			for(int i = 0; i < index; i++)
-			{
-				currentNode = currentNode.NextNode;
-			}
-			return currentNode.Data;
+            //Method format
+            //Uses indexer
+			return this[index];
 		}
+        
         /// <summary>
         /// Returns the data value from the node at the index specified.
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public T this[int index]
+        public T this[int index] //Indexer Format
         {
             get
             {
-                CustomNode<T> currentNode = headNode;
+                if (index >= count || index < 0)
+                    throw new IndexOutOfRangeException("Error: Index is invalid");
 
+                CustomNode<T> currentNode = headNode;
                 for (int i = 0; i < index; i++)
                 {
                     currentNode = currentNode.NextNode;
                 }
-
                 return currentNode.Data;
             }
         }
@@ -115,12 +115,14 @@ namespace Linked_Lists
 				throw new IndexOutOfRangeException("Error: index cannot be less than 0");
 			
 			CustomNode<T> currentNode = headNode;
-			
+
+			//Adds node to the end if index is greater than or equal to count
 			if(index >= count)
 			{
 				Add(data);
 				return;
 			}
+            //Gets node at index (if index is greater than 0)
 			else if(index > 0)
 			{
 				for(int i = 0; i < index; i++)
@@ -128,13 +130,18 @@ namespace Linked_Lists
 					currentNode = currentNode.NextNode;
 				}
 			}
-
+            //Creates the new node with the data and currentNode set as the next node
 			CustomNode<T> insertNode = new CustomNode<T>(data, currentNode, null);
 
+            //If currentNode has a PreviousNode (i.e. it is not the head node)
+            //then the Previous Node's next node connects to the inserted node
 			if(currentNode.PreviousNode != null)
 				currentNode.PreviousNode.NextNode = insertNode;
 
+            //Connects the inserted node to the previous node
             insertNode.PreviousNode = currentNode.PreviousNode;
+
+            //Connects the node after the insert to the inserted node
 			currentNode.PreviousNode = insertNode;
 
 			count++;
@@ -151,25 +158,29 @@ namespace Linked_Lists
                 throw new IndexOutOfRangeException("Error: Invalid Index");
 
             CustomNode<T> removedNode;
-
+            //If node is head node
             if (index == 0)
             {
                 removedNode = headNode;
                 headNode = headNode.NextNode;
             }
+            //If node is tail node
             else if (index == count - 1)
             {
                 removedNode = tailNode;
                 tailNode = tailNode.PreviousNode;
             }
+            //Otherwise...
             else
             {
+                //Find the node at that index
                 removedNode = headNode;
                 for (int i = 0; i < index; i++)
                 {
                     removedNode = removedNode.NextNode;
                 }
 
+                //Connect the nodes that were connected to the removed node to eachother
                 removedNode.NextNode.PreviousNode = removedNode.PreviousNode;
                 removedNode.PreviousNode.NextNode = removedNode.NextNode;
             }
@@ -200,9 +211,5 @@ namespace Linked_Lists
             tailNode = null;
             count = 0;
         }
-
-
-
-
 	}
 }

@@ -49,9 +49,11 @@ namespace Linked_Lists
                         customLinkedList.PrintReversed();
                         break;
                     case "scramble":
+                        //Removes node at a random index and stores the data
                         index = rnd.Next(customLinkedList.Count);
                         string data = customLinkedList.RemoveAt(index);
 
+                        //Inserts the data as a new node at the new random index
                         index = rnd.Next(customLinkedList.Count);
                         customLinkedList.Insert(data, index);
                         Console.WriteLine("A random element has been moved to a new position");
