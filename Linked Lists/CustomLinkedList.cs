@@ -20,6 +20,16 @@ namespace Linked_Lists
 		/// </summary>
 		public int Count {  get {  return count; } }
 
+        /// <summary>
+        /// Initalizes a new list
+        /// </summary>
+        public CustomLinkedList()
+        {
+            headNode = null;
+            tailNode = null;
+            count = 0;
+        }
+
 		/// <summary>
 		/// Initalizes a new list by creating a new Node as the head
 		/// </summary>
@@ -46,18 +56,26 @@ namespace Linked_Lists
 		/// <param name="data"></param>
 		public void Add(T data)
 		{
-			CustomNode<T> node = new CustomNode<T>(data, null, null);
-			node.PreviousNode = tailNode;
-			tailNode.NextNode = node;
-			tailNode = node;
+            CustomNode<T> node = new CustomNode<T>(data, null, null);
+            if (headNode == null)
+            {
+                headNode = node;
+            }
+            
+            if(tailNode != null)
+            {
+                node.PreviousNode = tailNode;
+                tailNode.NextNode = node;
+            }
+            tailNode = node;
 			count++;
 		}
-		/// <summary>
-		/// Iterates trhough the Nodes to find the data at the given index
-		/// </summary>
-		/// <param name="index"></param>
-		/// <returns></returns>
-		public T GetData(int index)
+        /// <summary>
+        /// Returns the data value from the node at the index specified.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public T GetData(int index)
 		{
 			CustomNode<T> currentNode = headNode;
 			for(int i = 0; i < index; i++)
@@ -98,9 +116,93 @@ namespace Linked_Lists
 			if(currentNode.PreviousNode != null)
 				currentNode.PreviousNode.NextNode = insertNode;
 
+            insertNode.PreviousNode = currentNode.PreviousNode;
 			currentNode.PreviousNode = insertNode;
 
 			count++;
 		}
+
+        /// <summary>
+        /// This method will remove a Node from the list and return its data.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public T RemoveAt(int index)
+        {
+            if (index < 0 || index >= count)
+                throw new IndexOutOfRangeException("Error: Invalid Index");
+
+            CustomNode<T> removedNode;
+
+            if (index == 0)
+            {
+                removedNode = headNode;
+                headNode = headNode.NextNode;
+            }
+            else if (index == count - 1)
+            {
+                removedNode = tailNode;
+                tailNode = tailNode.PreviousNode;
+            }
+            else
+            {
+                removedNode = headNode;
+                for (int i = 0; i < index; i++)
+                {
+                    removedNode = removedNode.NextNode;
+                }
+
+                removedNode.NextNode.PreviousNode = removedNode.PreviousNode;
+                removedNode.PreviousNode.NextNode = removedNode.NextNode;
+            }
+
+            count--;
+            return removedNode.Data;
+        }
+        /// <summary>
+        /// This method utilizes the “previous” field of each node to print out all of the data in reverse order.
+        /// </summary>
+        public void PrintReversed()
+        {
+            CustomNode<T> currentNode = tailNode;
+
+            for (int i = count - 1; i >= 0; i--)
+            {
+                Console.WriteLine(currentNode.Data);
+                currentNode = currentNode.PreviousNode;
+            }
+        }
+        /// <summary>
+        /// Returns the data value from the node at the index specified.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public T this[int index]
+        {
+            get
+            {
+                CustomNode<T> currentNode = headNode;
+
+                for (int i = 0; i < index; i++)
+                {
+                    currentNode = currentNode.NextNode;
+                }
+
+                return currentNode.Data;
+            }
+        }
+        /// <summary>
+        /// This method clears the list.
+        /// </summary>
+        public void Clear()
+        {
+            headNode = null;
+            tailNode = null;
+            count = 0;
+        }
+
+
+
+
 	}
 }
